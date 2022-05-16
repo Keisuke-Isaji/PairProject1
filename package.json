@@ -1,0 +1,25 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Keisuke-Isaji/PairProject1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Keisuke-Isaji/PairProject1/issues"
+  },
+  "homepage": "https://github.com/Keisuke-Isaji/PairProject1#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "chai": "^4.3.6",
+    "fetch": "^1.1.0",
+    "mocha": "^10.0.0"
+  }
+}

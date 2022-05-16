@@ -1,0 +1,23 @@
+.poke {
+  width: 19%;
+  margin: 0;
+  border: solid;
+}
+
+#pokeimage {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.price {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  float: left;
+  margin: auto;
+  margin-right: 5px;
+}
+/*# sourceMappingURL=style.css.map */
