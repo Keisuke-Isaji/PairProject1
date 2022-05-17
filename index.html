@@ -3,14 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <title>Vending Machine v2</title>
-    <script src="VendingMachine.js"></script>
     <!-- <script src="poke.js"></script> -->
     <link rel="stylesheet" href="style.css" />
+    <script src="app.js" type="module"></script>
   </head>
   <body>
     <h1>Vending Machine v2</h1>
-    <button id="insertmoney">おかねをいれてね</button>
+    <p id="nowmoneyArea">残金 $<span id="nowmoney">0</span></p>
+    <input type="button" value="おかねをいれてね" id="insertmoney" />
     <div id="pokeimage"></div>
-    <script src="app.js"></script>
+    <script src="VendingMachine.js" type="module"></script>
   </body>
 </html>

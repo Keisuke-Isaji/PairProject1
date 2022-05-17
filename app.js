@@ -1,67 +1,61 @@
-// const { VendingMachine } = require("./VendingMachine");
+import { VendingMachine } from "./VendingMachine.js";
 
-// const VendingMachine = require("./VendingMachine.js");
-// import { VendingMachine } from "./VendingMachine.js";
+let machine = new VendingMachine();
 
-// let machine = new VendingMachine();
+async function run() {
+  await machine.pokemonGetter();
 
-async function pokemonGetter() {
-  const pokeData = await fetch("https://pokeapi.co/api/v2/pokemon/")
-    .then((res1) => res1.json())
-    .then((res2) => res2.results);
-  const urlArray = pokeData.map((item) => item.url);
-  const pokemonData2 = await Promise.all(urlArray.map((url) => fetch(url)));
-  const pokemonData3 = await Promise.all(
-    pokemonData2.map((data) => data.json())
-  );
-  //   console.log("pokemonData3: ", pokemonData3);
+  console.log(machine);
+  console.log(machine.balance);
+  console.log("machine.inventory: ", machine.inventory);
+  async function frontImageGetter() {
+    const pokeData = machine.inventory.flat();
+    console.log("pokeData: ", pokeData);
 
-  return pokemonData3;
-}
+    const urlArray = pokeData.map((item) => item.url);
+    console.log("urlArray: ", urlArray);
 
-async function frontImageGetter() {
-  const pokeData = await fetch("https://pokeapi.co/api/v2/pokemon/")
-    .then((res1) => res1.json())
-    .then((res2) => res2.results);
-  const urlArray = pokeData.map((item) => item.url);
-  const pokemonData2 = await Promise.all(urlArray.map((url) => fetch(url)));
-  const pokemonData3 = await Promise.all(
-    pokemonData2.map((data) => data.json())
-  );
-  const pokemonData4 = await Promise.all(
-    pokemonData3.map((poke) => poke.sprites)
-  );
-  const pokemonData5 = await Promise.all(
-    pokemonData4.map((image) => image.front_default)
-  );
-  //   console.log(machine.till);
-  const imageArea = document.getElementById("pokeimage");
-  for (const pokemon of pokemonData5) {
-    // それぞれのポケモンのタグ作成
-    const eachPokemon = document.createElement("div");
-    // 写真部分
-    const newImageArea = document.createElement("img");
-    eachPokemon.className = "poke";
-    newImageArea.src = pokemon;
-    newImageArea.alt = "NO IMAGE";
-    eachPokemon.appendChild(newImageArea);
-    // 価格部分
-    const priceArea = document.createElement("p");
-    priceArea.className = "price";
-    const randomPrice = String(Math.floor(Math.random() * 10000) + 100);
-    priceArea.innerText = `$ ${randomPrice}`;
-    eachPokemon.appendChild(priceArea);
-    // 購入ボタン部分
-    const buttonArea = document.createElement("button");
-    buttonArea.className = "price";
-    buttonArea.innerText = "購入";
-    eachPokemon.appendChild(buttonArea);
-    // まとめたdivタグを自販機に挿入
-    imageArea.appendChild(eachPokemon);
+    const imageArea = document.getElementById("pokeimage");
+    for (const pokemon of urlArray) {
+      // それぞれのポケモンのタグ作成
+      const eachPokemon = document.createElement("div");
+      // 写真部分
+      const newImageArea = document.createElement("img");
+      eachPokemon.className = "poke";
+      newImageArea.src = pokemon;
+      newImageArea.alt = "NO IMAGE";
+      eachPokemon.appendChild(newImageArea);
+      // 価格部分
+      const priceArea = document.createElement("p");
+      priceArea.className = "price";
+      const randomPrice = String(Math.floor(Math.random() * 10000) + 100);
+      console.log("randomPrice: ", randomPrice);
+      priceArea.innerText = `$ ${randomPrice}`;
+      eachPokemon.appendChild(priceArea);
+      // 購入ボタン部分
+      const buttonArea = document.createElement("button");
+      buttonArea.className = "price";
+      buttonArea.innerText = "購入";
+      eachPokemon.appendChild(buttonArea);
+      // まとめたdivタグを自販機に挿入
+      imageArea.appendChild(eachPokemon);
+    }
   }
+  frontImageGetter();
 }
-function insertMoney(num) {}
+run();
 
-frontImageGetter();
+function moneyIncert() {
+  machine.insertCoin(500);
+  document.getElementById("nowmoney").innerText = machine.balance;
+}
 
-// module.exports = { conso };
+document.getElementById("insertmoney").addEventListener("click", moneyIncert);
+
+function alertPoke() {
+  window.alert("ポケモンをお金で買うなんて信じられない！");
+}
+
+document
+  .getElementsByClassName("price")[0]
+  .addEventListener("click", alertPoke);

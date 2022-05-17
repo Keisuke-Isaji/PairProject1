@@ -15,31 +15,49 @@ class VendingMachine {
     };
     this.row = null;
     this.drink;
-
-    const juice = { name: "Apple Juice", price: 350, count: 5 };
-    const coffee = { name: "Starbucks", price: 250, count: 7 };
-    const tea = { name: "mugitya", price: 250, count: 7 };
-    const cola = { name: "cola", price: 250, count: 7 };
-    const cider = { name: "cider", price: 250, count: 7 };
-    const greenTea = { name: "greenTea", price: 250, count: 7 };
-    const water = { name: "water", price: 230, count: 7 };
-    const redTea = { name: "redTea", price: 250, count: 7 };
-    const beer = { name: "beer", price: 250, count: 7 };
-    const wine = { name: "wine", price: 250, count: 7 };
-    const monster = { name: "monster", price: 250, count: 7 };
-    const yakult = { name: "yakult", price: 250, count: 7 };
-    const calpis = { name: "calpis", price: 250, count: 7 };
-    const potage = { name: "potage", price: 250, count: 7 };
-    const latte = { name: "latte", price: 250, count: 7 };
-    const fanta = { name: "fanta", price: 250, count: 0 };
-
-    this.inventory = [
-      [juice, coffee, tea, cola],
-      [cider, greenTea, water, redTea],
-      [beer, wine, monster, yakult],
-      [calpis, potage, latte, fanta],
-    ];
+    this.inventory;
   }
+  async pokemonGetter() {
+    const result = [];
+    const preResult = [];
+    const pokeData = await fetch("https://pokeapi.co/api/v2/pokemon/")
+      .then((res1) => res1.json())
+      .then((res2) => res2.results);
+    const urlArray = pokeData.map((item) => item.url);
+    const pokemonData2 = await Promise.all(urlArray.map((url) => fetch(url)));
+    const pokemonData3 = await Promise.all(
+      pokemonData2.map((data) => data.json())
+    );
+    const pokemonData4 = await Promise.all(
+      pokemonData3.map((poke) => poke.sprites)
+    );
+    const pokemonData5 = await Promise.all(
+      pokemonData4.map((image) => image.front_default)
+    );
+    const pokemonNameArray = await Promise.all(
+      pokemonData3.map((poke) => poke.name)
+    );
+    for (const name of pokemonNameArray) {
+      preResult.push({ name });
+    }
+    // console.log("pokemonData5: ", pokemonData5);
+    for (let i = 0; i < preResult.length; i++) {
+      preResult[i].url = pokemonData5[i];
+    }
+    for (const poke of preResult) {
+      const randomPrice = String(Math.floor(Math.random() * 10000) + 100);
+      poke.price = randomPrice;
+    }
+    for (let n = 0; n < preResult.length; n += 5) {
+      result.push(preResult.slice(n, n + 5));
+    }
+    console.log("result: ", result);
+    this.inventory = result;
+    // console.log("this.inventory: ", this.inventory);
+    console.log("result: ", result);
+    return result;
+  }
+
   insertCoin(denomination) {
     if (Object.keys(this.till).includes(String(denomination))) {
       this.till[denomination]++;
@@ -94,7 +112,4 @@ class VendingMachine {
     }
   }
 }
-
-// module.exports = VendingMachine;
-// export { VendingMachine };
-window.VendingMachine = VendingMachine;
+export { VendingMachine };
