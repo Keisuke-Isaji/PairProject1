@@ -3,7 +3,7 @@
 // const VendingMachine = require("./VendingMachine.js");
 // import { VendingMachine } from "./VendingMachine.js";
 
-let machine = new VendingMachine();
+// let machine = new VendingMachine();
 
 async function pokemonGetter() {
   const pokeData = await fetch("https://pokeapi.co/api/v2/pokemon/")
